@@ -1,2 +1,2 @@
 # Tic-Tac-Toe
-tic tac toe game in terminal 
+tic tac toe game in terminal .
