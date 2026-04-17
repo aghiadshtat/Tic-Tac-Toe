@@ -1,6 +1,10 @@
 # Tic-Tac-Toe
-tic tac toe game in terminal .
+Tic-Tac-Toe game with a desktop GUI built using Tkinter.
 
 ## sub header
 
-it's just a game bro
+Run with:
+
+```bash
+python Tic-Tac-Toe.py
+```
