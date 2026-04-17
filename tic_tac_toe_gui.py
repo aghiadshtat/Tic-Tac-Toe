@@ -60,15 +60,11 @@ class TicTacToeGUI:
 
         winner = self.get_winner()
         if winner:
-            self.game_over = True
-            self.status_var.set(f"Player {winner} wins!")
-            messagebox.showinfo("Game Over", f"Player {winner} wins!")
+            self.end_game(f"Player {winner} wins!")
             return
 
         if self.is_draw():
-            self.game_over = True
-            self.status_var.set("It's a draw!")
-            messagebox.showinfo("Game Over", "It's a draw!")
+            self.end_game("It's a draw!")
             return
 
         self.current_player = "O" if self.current_player == "X" else "X"
@@ -92,6 +88,11 @@ class TicTacToeGUI:
 
     def is_draw(self) -> bool:
         return all(cell for cell in self.board)
+
+    def end_game(self, message: str) -> None:
+        self.game_over = True
+        self.status_var.set(message)
+        messagebox.showinfo("Game Over", message)
 
     def restart_game(self) -> None:
         self.current_player = "X"
