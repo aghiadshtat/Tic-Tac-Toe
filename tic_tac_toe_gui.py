@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from typing import Optional
 
 
 class TicTacToeGUI:
@@ -73,7 +74,7 @@ class TicTacToeGUI:
         self.current_player = "O" if self.current_player == "X" else "X"
         self.status_var.set(f"Player {self.current_player}'s turn")
 
-    def get_winner(self) -> str | None:
+    def get_winner(self) -> Optional[str]:
         win_conditions = [
             (0, 1, 2),
             (3, 4, 5),
