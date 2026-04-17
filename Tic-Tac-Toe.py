@@ -7,6 +7,7 @@ class TicTacToeGUI:
         self.root = tk.Tk()
         self.root.title("Tic-Tac-Toe")
         self.root.resizable(False, False)
+        self.setup_cancelled = False
 
         self.players = [
             {"name": "Player 1", "sym": "X"},
@@ -50,10 +51,13 @@ class TicTacToeGUI:
             row=0, column=1, padx=6
         )
 
-        self.setup_players()
+        if not self.setup_players():
+            self.setup_cancelled = True
+            self.root.destroy()
+            return
         self.update_status()
 
-    def setup_players(self) -> None:
+    def setup_players(self) -> bool:
         for index in range(2):
             default_name = self.players[index]["name"]
             while True:
@@ -64,8 +68,7 @@ class TicTacToeGUI:
                     parent=self.root,
                 )
                 if name is None:
-                    self.root.destroy()
-                    return
+                    return False
                 name = name.strip()
                 if name:
                     self.players[index]["name"] = name
@@ -74,15 +77,13 @@ class TicTacToeGUI:
 
         first_symbol = self.ask_symbol(self.players[0]["name"], "X")
         if first_symbol is None:
-            self.root.destroy()
-            return
+            return False
         self.players[0]["sym"] = first_symbol
 
         while True:
             second_symbol = self.ask_symbol(self.players[1]["name"], "O")
             if second_symbol is None:
-                self.root.destroy()
-                return
+                return False
             if second_symbol != self.players[0]["sym"]:
                 self.players[1]["sym"] = second_symbol
                 break
@@ -90,6 +91,7 @@ class TicTacToeGUI:
                 "Invalid Symbol",
                 "Player 2 must choose a different symbol from Player 1.",
             )
+        return True
 
     def ask_symbol(self, player_name: str, default_symbol: str) -> str | None:
         while True:
@@ -174,5 +176,5 @@ class TicTacToeGUI:
 
 if __name__ == "__main__":
     app = TicTacToeGUI()
-    if app.root.winfo_exists():
+    if not app.setup_cancelled:
         app.run()
