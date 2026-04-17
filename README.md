@@ -1,6 +1,15 @@
 # Tic-Tac-Toe
-tic tac toe game in terminal .
 
-## sub header
+Tic-Tac-Toe game with:
+- Terminal version: `Tic-Tac-Toe.py`
+- GUI version (Tkinter): `tic_tac_toe_gui.py`
 
-it's just a game bro
+## Run
+
+```bash
+python Tic-Tac-Toe.py
+```
+
+```bash
+python tic_tac_toe_gui.py
+```
