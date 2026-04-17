@@ -17,11 +17,11 @@ class TicTacToeGame:
         self,
         players: list[dict[str, str]],
         vs_bot: bool = False,
-        bot_player_index: int = 1,
+        bot_player_index: int | None = None,
     ) -> None:
         self.players = players
         self.vs_bot = vs_bot
-        self.bot_player_index = bot_player_index
+        self.bot_player_index = bot_player_index if vs_bot else None
         self.board = [""] * 9
         self.current_player = 0
         self.game_over = False
@@ -81,6 +81,8 @@ class BotAI:
         return self._choose_hard(game)
 
     def _choose_medium(self, game: TicTacToeGame) -> int:
+        if game.bot_player_index is None:
+            return random.choice(game.available_moves())
         bot_symbol = game.players[game.bot_player_index]["sym"]
         human_symbol = game.players[1 - game.bot_player_index]["sym"]
         moves = game.available_moves()
@@ -107,6 +109,8 @@ class BotAI:
         return random.choice(moves)
 
     def _choose_hard(self, game: TicTacToeGame) -> int:
+        if game.bot_player_index is None:
+            return random.choice(game.available_moves())
         bot_symbol = game.players[game.bot_player_index]["sym"]
         human_symbol = game.players[1 - game.bot_player_index]["sym"]
 
@@ -148,20 +152,24 @@ class BotAI:
         if maximizing:
             best = float("-inf")
             for move in available:
-                board[move] = bot_symbol
                 score = self._minimax(
-                    board, depth + 1, False, bot_symbol=bot_symbol, human_symbol=human_symbol
+                    board=board[:move] + [bot_symbol] + board[move + 1 :],
+                    depth=depth + 1,
+                    maximizing=False,
+                    bot_symbol=bot_symbol,
+                    human_symbol=human_symbol,
                 )
-                board[move] = ""
                 best = max(best, score)
             return int(best)
 
         best = float("inf")
         for move in available:
-            board[move] = human_symbol
             score = self._minimax(
-                board, depth + 1, True, bot_symbol=bot_symbol, human_symbol=human_symbol
+                board=board[:move] + [human_symbol] + board[move + 1 :],
+                depth=depth + 1,
+                maximizing=True,
+                bot_symbol=bot_symbol,
+                human_symbol=human_symbol,
             )
-            board[move] = ""
             best = min(best, score)
         return int(best)

@@ -197,7 +197,7 @@ class TicTacToeGUI:
             self.bot_ai = BotAI(difficulty=difficulty)
         else:
             players = [{"name": "Player 1", "sym": "X"}, {"name": "Player 2", "sym": "O"}]
-            self.game = TicTacToeGame(players=players, vs_bot=False, bot_player_index=1)
+            self.game = TicTacToeGame(players=players, vs_bot=False)
             self.bot_ai = None
 
         self._reset_board_ui()
